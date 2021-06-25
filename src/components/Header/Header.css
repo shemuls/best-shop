@@ -1,0 +1,11 @@
+a.nav-link {
+  color: #333;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+a.nav-link.active {
+  color: #007bff;
+}
+li.nav-item {
+  margin-left: 20px;
+}

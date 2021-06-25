@@ -1,0 +1,12 @@
+.heroArea {
+  display: flex;
+  align-items: center;
+  background-position: center center !important;
+  background-size: cover !important;
+  box-sizing: border-box;
+  min-height: 90vh;
+  text-align: left;
+}
+.heroArea h1 {
+  font-size: 80px;
+}
