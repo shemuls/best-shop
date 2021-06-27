@@ -6,7 +6,7 @@ export const Header = () => {
     <div>
       <nav className="navbar navbar-expand-lg">
         <div className="container">
-          <a className="navbar-brand" href="#t">
+          <a className="navbar-brand" href="/">
             <h4>BEST SHOP</h4>
           </a>
           <button

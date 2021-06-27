@@ -3,6 +3,7 @@ import fakeData from "../../fakeData/index.js";
 import { Products } from "./../Products/Products";
 import { Cart } from "./../Cart/Cart";
 import { useState } from "react";
+import { addToDatabaseCart } from "../../utilities/DatabaseManager.js";
 
 export const Shop = () => {
   const Products12 = fakeData.slice(0, 12);
@@ -14,6 +15,8 @@ export const Shop = () => {
     const currentCart = cart;
     const newCart = [...currentCart, product];
     setCart(newCart);
+    const counts = newCart.filter((pd) => pd.id === product.id);
+    addToDatabaseCart(product.id, counts.length);
   };
 
   // Cart Popup Handling

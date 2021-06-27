@@ -22,15 +22,31 @@ export const Cart = (props) => {
   if (totalPrice > 1000) {
     shippingCost = 150;
   }
+  if (totalPrice > 5000) {
+    shippingCost = 250;
+  }
 
-  console.log(shippingCost);
   return (
     <div>
-      <div onClick={props.handleCartPopup} className="cartCalculator shadow-sm">
-        <p className="m-0">
-          <FontAwesomeIcon icon={faShoppingCart} /> <span>{cart.length}</span>
-        </p>
-      </div>
+      {props.cartPopup ? (
+        <div
+          onClick={props.closeCartPopup}
+          className="cartCalculator shadow-sm"
+        >
+          <p className="m-0">
+            <FontAwesomeIcon icon={faShoppingCart} /> <span>{cart.length}</span>
+          </p>
+        </div>
+      ) : (
+        <div
+          onClick={props.handleCartPopup}
+          className="cartCalculator shadow-sm"
+        >
+          <p className="m-0">
+            <FontAwesomeIcon icon={faShoppingCart} /> <span>{cart.length}</span>
+          </p>
+        </div>
+      )}
       {props.cartPopup ? (
         <div className="cartCalculatorPopup shadow">
           <h6>
@@ -38,14 +54,14 @@ export const Cart = (props) => {
           </h6>
           <ul>
             <li>Ordered item: {cart.length}</li>
-            <li>Total price: {totalPrice}</li>
-            <li>Shipping Cost: {shippingCost}</li>
+            <li>Total price: $ {totalPrice}</li>
+            <li>Shipping Cost: $ {shippingCost}</li>
             <li>
-              <strong>Grand Total: {totalPrice + shippingCost}</strong>
+              <strong>Grand Total: $ {totalPrice + shippingCost}</strong>
             </li>
             <hr />
           </ul>
-          <a className="btn btn-primary btn-sm float-right" href="/view-cart">
+          <a className="btn btn-primary btn-sm float-right" href="/cart-review">
             View Cart
           </a>
 
