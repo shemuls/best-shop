@@ -1,8 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
-import fakeData from "./../../fakeData/index";
 import "./OrderItem.css";
 
 export const OrderItem = (props) => {

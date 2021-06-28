@@ -2,8 +2,11 @@ import React from "react";
 import fakeData from "../../fakeData/index.js";
 import { Products } from "./../Products/Products";
 import { Cart } from "./../Cart/Cart";
-import { useState } from "react";
-import { addToDatabaseCart } from "../../utilities/DatabaseManager.js";
+import { useState, useEffect } from "react";
+import {
+  addToDatabaseCart,
+  getDatabaseCart,
+} from "../../utilities/DatabaseManager.js";
 
 export const Shop = () => {
   const Products12 = fakeData.slice(0, 12);
@@ -18,6 +21,17 @@ export const Shop = () => {
     const counts = newCart.filter((pd) => pd.id === product.id);
     addToDatabaseCart(product.id, counts.length);
   };
+  useEffect(() => {
+    const allProducts = fakeData;
+    const savedCart = getDatabaseCart();
+    const productId = Object.keys(savedCart);
+    const cartProducts = productId.map((pId) => {
+      const product = allProducts.find((pd) => pd.id === pId);
+      product.quantity = savedCart[pId];
+      return product;
+    });
+    setCart(cartProducts);
+  }, []);
 
   // Cart Popup Handling
   const handleCartPopup = () => {
