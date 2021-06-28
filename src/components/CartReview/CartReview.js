@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { getDatabaseCart } from "../../utilities/DatabaseManager.js";
+import {
+  getDatabaseCart,
+  removeFromDatabaseCart,
+} from "../../utilities/DatabaseManager.js";
 import fakeData from "./../../fakeData/index";
 
 import "./CartReview.css";
 import { OrderItem } from "./../OrderItem/OrderItem";
+import { OrderSummury } from "./../OrderSummury/OrderSummury";
 
 export const CartReview = () => {
   const [cart, setcart] = useState([]);
@@ -19,6 +23,15 @@ export const CartReview = () => {
     });
     setcart(cartProducts);
   }, []);
+
+  const RemoveCartItem = (id) => {
+    const currentCart = cart;
+    const updatedCart = currentCart.filter(
+      (cartProuct) => cartProuct.id !== id
+    );
+    removeFromDatabaseCart(id);
+    setcart(updatedCart);
+  };
 
   return (
     <div className="cart-review bg-light p-5">
@@ -36,13 +49,19 @@ export const CartReview = () => {
             {cart.map((cartProucts) => (
               <OrderItem
                 key={cartProucts.id}
-                CartProduct={cartProucts}
+                CartProducts={cartProucts}
+                RemoveCartItem={RemoveCartItem}
               ></OrderItem>
             ))}
           </div>
           <div className="col-md-4">
-            <div className="row bg-white p-3 order-summury">
-              <h6>Order Summary</h6>
+            <div className="row bg-white p-3 ">
+              <div className="col">
+                <OrderSummury CartProducts={cart}></OrderSummury>
+                <button className="btn btn-success float-right">
+                  Place Order
+                </button>
+              </div>
             </div>
           </div>
         </div>

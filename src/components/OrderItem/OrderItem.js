@@ -1,14 +1,22 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useEffect, useState } from "react";
+import fakeData from "./../../fakeData/index";
+import "./OrderItem.css";
 
 export const OrderItem = (props) => {
-  const { productName, productImg, price, quantity } = props.CartProduct;
+  const { id, productName, productImg, price, quantity } = props.CartProducts;
+
   return (
     <div className="row p-3 mb-3 shadow rounded bg-white">
       <div className="col-md-6">
         <div className="d-flex align-items-center">
-          <FontAwesomeIcon className="text-danger" icon={faTrash} />
+          <FontAwesomeIcon
+            onClick={() => props.RemoveCartItem(id)}
+            className="text-danger order-item-delete"
+            icon={faTrash}
+          />
           <img className="img-thumbnail ml-2" src={productImg} alt="" />
           <div className="ml-2">
             <p>
@@ -22,7 +30,11 @@ export const OrderItem = (props) => {
           <span>
             <strong>-</strong>
           </span>
-          <input className="form-control mx-2 text-center" value={quantity} />
+          <input
+            className="form-control mx-2 text-center"
+            value={quantity}
+            onChange={() => null}
+          />
           <span>
             <strong>+</strong>
           </span>

@@ -2,6 +2,7 @@ import React from "react";
 import "./Cart.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import { OrderSummury } from "../OrderSummury/OrderSummury.js";
 
 export const Cart = (props) => {
   const cart = props.Cart;
@@ -49,18 +50,7 @@ export const Cart = (props) => {
       )}
       {props.cartPopup ? (
         <div className="cartCalculatorPopup shadow">
-          <h6>
-            <strong>Order Summary</strong>
-          </h6>
-          <ul>
-            <li>Ordered item: {cart.length}</li>
-            <li>Total price: $ {totalPrice}</li>
-            <li>Shipping Cost: $ {shippingCost}</li>
-            <li>
-              <strong>Grand Total: $ {totalPrice + shippingCost}</strong>
-            </li>
-            <hr />
-          </ul>
+          <OrderSummury CartProducts={cart}></OrderSummury>
           <a className="btn btn-primary btn-sm float-right" href="/cart-review">
             View Cart
           </a>
