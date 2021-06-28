@@ -4,8 +4,9 @@ import "./OrderSummury.css";
 export const OrderSummury = (props) => {
   const cart = props.CartProducts;
   const totalPrice = cart.reduce((prevVal, currentVal) => {
-    return prevVal + currentVal.price;
+    return prevVal + currentVal.price * currentVal.quantity;
   }, 0);
+  console.log(cart);
 
   let shippingCost = 0;
   if (totalPrice >= 50) {
@@ -36,6 +37,7 @@ export const OrderSummury = (props) => {
         </li>
         <hr />
       </ul>
+      {props.children}
     </div>
   );
 };

@@ -14,24 +14,39 @@ export const Shop = () => {
   const [cart, setCart] = useState([]);
   const [cartPopup, setCartPopup] = useState(false);
 
-  const handleAddProduct = (product) => {
-    const currentCart = cart;
-    const newCart = [...currentCart, product];
-    setCart(newCart);
-    const counts = newCart.filter((pd) => pd.id === product.id);
-    addToDatabaseCart(product.id, counts.length);
-  };
   useEffect(() => {
-    const allProducts = fakeData;
     const savedCart = getDatabaseCart();
     const productId = Object.keys(savedCart);
     const cartProducts = productId.map((pId) => {
-      const product = allProducts.find((pd) => pd.id === pId);
+      const product = fakeData.find((pd) => pd.id === pId);
       product.quantity = savedCart[pId];
       return product;
     });
     setCart(cartProducts);
   }, []);
+
+  const handleAddProduct = (product) => {
+    const productId = product.id;
+    const currentCart = cart;
+    const sameProduct = currentCart.find(
+      (singleProduct) => singleProduct.id === productId
+    );
+    let quantityCount = 1;
+    let newCart;
+    if (sameProduct) {
+      quantityCount = sameProduct.quantity + 1;
+      sameProduct.quantity = quantityCount;
+      const othersProduct = currentCart.filter(
+        (singleProduct) => singleProduct.id !== productId
+      );
+      newCart = [...othersProduct, sameProduct];
+    } else {
+      product.quantity = 1;
+      newCart = [...cart, product];
+    }
+    setCart(newCart);
+    addToDatabaseCart(product.id, quantityCount);
+  };
 
   // Cart Popup Handling
   const handleCartPopup = () => {

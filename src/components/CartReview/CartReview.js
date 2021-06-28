@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   getDatabaseCart,
+  processOrder,
   removeFromDatabaseCart,
 } from "../../utilities/DatabaseManager.js";
 import fakeData from "./../../fakeData/index";
@@ -10,7 +11,7 @@ import { OrderItem } from "./../OrderItem/OrderItem";
 import { OrderSummury } from "./../OrderSummury/OrderSummury";
 
 export const CartReview = () => {
-  const [cart, setcart] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     const allProducts = fakeData;
@@ -21,16 +22,25 @@ export const CartReview = () => {
       product.quantity = savedCart[pId];
       return product;
     });
-    setcart(cartProducts);
+    setCart(cartProducts);
   }, []);
 
-  const RemoveCartItem = (id) => {
+  const removeCartItem = (id) => {
     const currentCart = cart;
     const updatedCart = currentCart.filter(
       (cartProuct) => cartProuct.id !== id
     );
     removeFromDatabaseCart(id);
-    setcart(updatedCart);
+    setCart(updatedCart);
+  };
+
+  const increaseQuantity = (id) => {
+    return null;
+  };
+
+  const handleOrderPlaceBtn = () => {
+    setCart([]);
+    processOrder();
   };
 
   return (
@@ -50,17 +60,21 @@ export const CartReview = () => {
               <OrderItem
                 key={cartProucts.id}
                 CartProducts={cartProucts}
-                RemoveCartItem={RemoveCartItem}
+                RemoveCartItem={removeCartItem}
               ></OrderItem>
             ))}
           </div>
           <div className="col-md-4">
             <div className="row bg-white p-3 ">
               <div className="col">
-                <OrderSummury CartProducts={cart}></OrderSummury>
-                <button className="btn btn-success float-right">
-                  Place Order
-                </button>
+                <OrderSummury CartProducts={cart}>
+                  <button
+                    onClick={handleOrderPlaceBtn}
+                    className="btn btn-success float-right"
+                  >
+                    Place Order
+                  </button>
+                </OrderSummury>
               </div>
             </div>
           </div>

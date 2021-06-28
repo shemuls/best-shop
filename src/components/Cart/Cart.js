@@ -6,6 +6,9 @@ import { OrderSummury } from "../OrderSummury/OrderSummury.js";
 
 export const Cart = (props) => {
   const cart = props.Cart;
+  const totalQuantity = cart.reduce((prevVal, currentVal) => {
+    return prevVal + currentVal.quantity;
+  }, 0);
 
   return (
     <div>
@@ -15,7 +18,8 @@ export const Cart = (props) => {
           className="cartCalculator shadow-sm"
         >
           <p className="m-0">
-            <FontAwesomeIcon icon={faShoppingCart} /> <span>{cart.length}</span>
+            <FontAwesomeIcon icon={faShoppingCart} />{" "}
+            <span>{totalQuantity}</span>
           </p>
         </div>
       ) : (
@@ -24,16 +28,21 @@ export const Cart = (props) => {
           className="cartCalculator shadow-sm"
         >
           <p className="m-0">
-            <FontAwesomeIcon icon={faShoppingCart} /> <span>{cart.length}</span>
+            <FontAwesomeIcon icon={faShoppingCart} />{" "}
+            <span>{totalQuantity}</span>
           </p>
         </div>
       )}
       {props.cartPopup ? (
         <div className="cartCalculatorPopup shadow">
-          <OrderSummury CartProducts={cart}></OrderSummury>
-          <a className="btn btn-primary btn-sm float-right" href="/cart-review">
-            View Cart
-          </a>
+          <OrderSummury CartProducts={cart}>
+            <a
+              className="btn btn-primary btn-sm float-right"
+              href="/cart-review"
+            >
+              View Cart
+            </a>
+          </OrderSummury>
 
           <button
             onClick={props.closeCartPopup}
