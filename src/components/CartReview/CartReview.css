@@ -1,0 +1,11 @@
+.cart-review img {
+  height: 120px;
+  width: 120px;
+  object-fit: cover;
+}
+.cart-review .qty {
+  width: 90px;
+}
+.cart-review .order-summury {
+  height: 100%;
+}
