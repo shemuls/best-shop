@@ -25,7 +25,11 @@ export const OrderItem = (props) => {
       </div>
       <div className="col-md-6 d-flex align-items-center justify-content-between">
         <div className="qty d-flex align-items-center">
-          <span>
+          <span
+            onClick={() => {
+              props.decreaseQuantity(id);
+            }}
+          >
             <strong>-</strong>
           </span>
           <input
@@ -33,7 +37,7 @@ export const OrderItem = (props) => {
             value={quantity}
             onChange={() => null}
           />
-          <span>
+          <span onClick={() => props.increaseQuantity(id)}>
             <strong>+</strong>
           </span>
         </div>

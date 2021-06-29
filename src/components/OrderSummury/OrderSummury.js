@@ -6,7 +6,9 @@ export const OrderSummury = (props) => {
   const totalPrice = cart.reduce((prevVal, currentVal) => {
     return prevVal + currentVal.price * currentVal.quantity;
   }, 0);
-  console.log(cart);
+  const totalQuantity = cart.reduce((prevVal, currentVal) => {
+    return prevVal + currentVal.quantity;
+  }, 0);
 
   let shippingCost = 0;
   if (totalPrice >= 50) {
@@ -30,6 +32,7 @@ export const OrderSummury = (props) => {
       <h6>Order Summary</h6>
       <ul>
         <li>Ordered item: {cart.length}</li>
+        <li>Total quantity: {totalQuantity}</li>
         <li>Total price: $ {totalPrice}</li>
         <li>Shipping Cost: $ {shippingCost}</li>
         <li>

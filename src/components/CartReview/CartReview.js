@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  addToDatabaseCart,
   getDatabaseCart,
   processOrder,
   removeFromDatabaseCart,
@@ -9,9 +10,12 @@ import fakeData from "./../../fakeData/index";
 import "./CartReview.css";
 import { OrderItem } from "./../OrderItem/OrderItem";
 import { OrderSummury } from "./../OrderSummury/OrderSummury";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 export const CartReview = () => {
   const [cart, setCart] = useState([]);
+  const [placeOrder, setPlaceOrder] = useState(false);
 
   useEffect(() => {
     const allProducts = fakeData;
@@ -35,11 +39,47 @@ export const CartReview = () => {
   };
 
   const increaseQuantity = (id) => {
-    return null;
+    const productId = id;
+    const currentCart = cart;
+    const sameProduct = currentCart.find(
+      (singleProduct) => singleProduct.id === productId
+    );
+    let quantityCount = 1;
+    let newCart;
+    if (sameProduct) {
+      quantityCount = sameProduct.quantity + 1;
+      sameProduct.quantity = quantityCount;
+      const othersProduct = currentCart.filter(
+        (singleProduct) => singleProduct.id !== productId
+      );
+      newCart = [sameProduct, ...othersProduct];
+      setCart(newCart);
+      addToDatabaseCart(id, quantityCount);
+    }
+  };
+  const decreaseQuantity = (id) => {
+    const productId = id;
+    const currentCart = cart;
+    const sameProduct = currentCart.find(
+      (singleProduct) => singleProduct.id === productId
+    );
+    let quantityCount = 1;
+    let newCart;
+    if (sameProduct && sameProduct.quantity > 0) {
+      quantityCount = sameProduct.quantity + -1;
+      sameProduct.quantity = quantityCount;
+      const othersProduct = currentCart.filter(
+        (singleProduct) => singleProduct.id !== productId
+      );
+      newCart = [sameProduct, ...othersProduct];
+      setCart(newCart);
+      addToDatabaseCart(id, quantityCount);
+    }
   };
 
   const handleOrderPlaceBtn = () => {
     setCart([]);
+    setPlaceOrder(true);
     processOrder();
   };
 
@@ -58,11 +98,22 @@ export const CartReview = () => {
           <div className="col-md-8 order-item ">
             {cart.map((cartProucts) => (
               <OrderItem
-                key={cartProucts.id}
+                key={cartProucts.id + Math.random()}
                 CartProducts={cartProucts}
                 RemoveCartItem={removeCartItem}
+                increaseQuantity={increaseQuantity}
+                decreaseQuantity={decreaseQuantity}
               ></OrderItem>
             ))}
+            {placeOrder && (
+              <p className="alert alert-success">
+                <FontAwesomeIcon
+                  className="mr-2"
+                  icon={faCheckCircle}
+                ></FontAwesomeIcon>
+                Order placed successfull !
+              </p>
+            )}
           </div>
           <div className="col-md-4">
             <div className="row bg-white p-3 ">
